@@ -85,7 +85,7 @@ void coreUpgradeStatus(int gCoin, int statPower, int statMagic, int statDefense,
         stat.magic += statMagic;
         stat.defense += statDefense;
         stat.potion += statPotion;
-        cout << "\n\tPembelian berhasil\n";
+        cout << "\n\tPembelian berhasil\n\n";
         system("pause");
 
         if (userInfo.gCoin < 0){
@@ -101,7 +101,7 @@ void coreUpgradeStatus(int gCoin, int statPower, int statMagic, int statDefense,
     }
 
     else {
-        cout << "\n\tPembelian dibatalkan\n";
+        cout << "\n\tPembelian dibatalkan\n" << endl;
         system("pause");
     }
     
@@ -159,13 +159,13 @@ void coreBattleProcess(int pilih, int gCoin, int maxLife, int statPower, int sta
     string resultBattle;
 
     system("cls");
-    cout << "\t\t\t\t\t\t\tINFORMASI BOSS" << endl << endl;
+    cout << "\t\t\t\t\t\tINFORMASI BOSS" << endl << endl;
     cout << "\tNama Boss\t: " << boss.name[pilih] << endl;
     cout << "\tLife\t\t: " << boss.life[pilih] << endl;
     cout << "\tDamage Boss\t: " << boss.power[pilih] << endl << endl << endl;
-    cout << "\t\t\t\t\t\tLOADING, HARAP TUNGGU" << endl;
+    cout << "\t\t\t\t\t     LOADING, HARAP TUNGGU" << endl;
     sleep(10);
-    cout << "\t\t\t\t\t\tTekan apapun untuk melanjutkan" << endl;
+    cout << "\t\t\t\t\t Tekan apapun untuk melanjutkan" << endl << endl;
     system("pause");
 
     system("cls");
@@ -204,15 +204,15 @@ void coreBattleProcess(int pilih, int gCoin, int maxLife, int statPower, int sta
                 
     indexa++;
 
-    cout << "\n\n\n\n\n\t\t\t\t\tSEDANG BATTLE" << endl;
-    cout << "\t\t\t\t\tMEMBUTUHKAN WAKTU SEKITAR 15 DETIK" << endl;
+    cout << "\n\n\n\n\n\t\t\t\t\t\tSEDANG BATTLE" << endl;
+    cout << "\t\t\t\t\tMEMBUTUHKAN WAKTU SEKITAR 15 DETIK" << endl << endl;
     sleep(15);
     system("pause");
                 
     system("cls");
     resultBattle = hasil(resultBool);
-    cout << "\n\n\n\n\n\t\t\t\t\tKamu " << resultBattle << endl;
-    cout << "\t\t\t\tTekan tombol apapun untuk kembali ke Desa" << endl;
+    cout << "\n\n\n\n\n\t\t\t\t\t\tKamu " << resultBattle << endl;
+    cout << "\t\t\t\t   Tekan tombol apapun untuk kembali ke Desa" << endl << endl;
     system("pause");
 
     return;
@@ -270,7 +270,7 @@ void saveGame(){
     system("cls");
     char pilih;
     cout << "\t\t\t\t\t\tKONFIRMASI" << endl << endl;
-    cout << "\n\tApa kamu ingin menyimpan data game kamu? [Y/N]" << endl;
+    cout << "\n\tApa kamu ingin menyimpan riwayat game kamu? [Y/N]" << endl;
     cout << "\t";
     cin >> pilih;
 
@@ -457,7 +457,7 @@ int main(){
 
             case 3:
                 stat.life = MAX;
-                cout << "\n\n\tBerhasil!" << endl;
+                cout << "\n\n\tBerhasil!" << endl << endl;
                 system("pause");
                 break;
 
