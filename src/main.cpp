@@ -13,22 +13,22 @@ All attribute will be converted to power and life while battle to boss
 #include <fstream> // to output the file to battleHistory.log
 #include <string> // using for check string empty a.k.a variable_string_name.empty()
 #include <unistd.h> // using for sleep() command
-#define maxa 100
+#define maxa 100 // for all struct that saving information will be maximied 100 match
 using namespace std; // using standart namespace
 
 
-int MAX = 100;
-int indexa = 0;
-int i = 0;
+int MAX = 100; // MAX life can be increased
+int indexa = 0; // increment for saving history game
+int i = 0; // increment for saving history game to file battleHistory.log
 
-struct data{
+struct data{ // struct main information
     string nama;
     string karakter;
     string weapon;
     int gCoin;
 }userInfo;
 
-struct statistic{
+struct statistic{ // struct main statistic/attribute
     int life;
     int power;
     int defense;
@@ -36,22 +36,22 @@ struct statistic{
     int potion;
 }stat;
 
-struct detailHistory{
+struct historyBattle{ // struct history battle
+    // common information
+    int battleId[maxa];
+    string enemyName[maxa];
+    string hasil[maxa];
+
+    // detail information
     int totalDamageHero[maxa];
     int totalLifeHero[maxa];
     int totalDamageBoss[maxa];
     int totalLifeBoss[maxa];
     int lastLifeHero[maxa];
     int lastLifeBoss[maxa];
-}detail;
-
-struct historyBattle{
-    int battleId[maxa];
-    string enemyName[maxa];
-    string hasil[maxa];
 }history;
 
-struct enemyBoss{
+struct enemyBoss{ // contain boss
     string name[2] = {"The Boss of Knight Tree", "The Boss of Knight Pegasus"};
     int life[2] = {100, 700};
     int power[2] = {50, 500};
@@ -59,7 +59,7 @@ struct enemyBoss{
 
 
 
-string hasil(int hasil){
+string hasil(int hasil){ // string to output win or lose
     string state;
     if (hasil == 1){
         state = "Berhasil";
@@ -71,9 +71,46 @@ string hasil(int hasil){
     }
 }
 
-void upgradeStatus(){
-    int pilihanq;
+void coreUpgradeStatus(int gCoin, int statPower, int statMagic, int statDefense, int statPotion){
     char pilihanq2;
+
+    system("cls");
+    cout << "\n\n\tHarganya " << gCoin << " g. Yakin? [Y/N]\n\t";
+    cin >> pilihanq2;
+        
+    if (pilihanq2 == 'Y'){
+        userInfo.gCoin -= gCoin;
+
+        stat.power += statPower;
+        stat.magic += statMagic;
+        stat.defense += statDefense;
+        stat.potion += statPotion;
+        cout << "\n\tPembelian berhasil\n";
+        system("pause");
+
+        if (userInfo.gCoin < 0){
+            cout << "\n\tPembelian dibatalkan karena terdeteksi saldo tidak cukup\n";
+            userInfo.gCoin += gCoin;
+
+            stat.power -= statPower;
+            stat.magic -= statMagic;
+            stat.defense -= statDefense;
+            stat.potion -= statPotion;
+            sleep(2.5);
+        }
+    }
+
+    else {
+        cout << "\n\tPembelian dibatalkan\n";
+        system("pause");
+    }
+    
+    return;
+}
+
+void upgradeStatus(){ // to increase status/attribute/statistic
+    int pilihanq;
+
     for (;;){
         system("cls");
         cout << "\t\t\t\t\t\tPOTION SHOP" << endl << endl;
@@ -89,138 +126,26 @@ void upgradeStatus(){
         cout << "\tPilihan: ";
         cin >> pilihanq;
 
+        // int gCoin, int statPower, int statMagic, int statDefense, int statPotion
+
         if (pilihanq == 1){
-            system("cls");
-            cout << "\n\n\tHarganya 500 g. Yakin? [Y/N]\n\t";
-            cin >> pilihanq2;
-        
-            if (pilihanq2 == 'Y'){
-                userInfo.gCoin -= 500;
-                stat.potion += 10;
-                cout << "\n\tPembelian berhasil\n";
-                system("pause");
-
-                if (userInfo.gCoin < 0){
-                    cout << "\n\tPembelian dibatalkan karena terdeteksi saldo tidak cukup\n";
-                    userInfo.gCoin += 500;
-                    stat.potion -= 10;
-                    sleep(1);
-                }
-            }
-
-            else {
-                cout << "\n\tPembelian dibatalkan\n";
-                system("pause");
-            }
+            coreUpgradeStatus(500, 0, 0, 0, 10);
         }
 
         else if (pilihanq == 2){
-            system("cls");
-            cout << "\n\n\tHarganya 1000 g. Yakin? [Y/N]\n\t";
-            cin >> pilihanq2;
-        
-            if (pilihanq2 == 'Y'){
-                userInfo.gCoin -= 1000;
-                stat.potion += 30;
-                cout << "\n\tPembelian berhasil\n";
-                system("pause");
-
-                if (userInfo.gCoin < 0){
-                    cout << "\n\tPembelian dibatalkan karena terdeteksi saldo tidak cukup\n";
-                    userInfo.gCoin += 1000;
-                    stat.potion -= 30;
-                    sleep(2);
-                }
-            }
-
-            else {
-                cout << "\n\tPembelian dibatalkan\n";
-                system("pause");
-            
-            }
+            coreUpgradeStatus(1000, 0, 0, 0, 30);
         }
 
         else if (pilihanq == 3){
-            system("cls");
-            cout << "\n\n\tHarganya 625 g. Yakin? [Y/N]\n\t";
-            cin >> pilihanq2;
-        
-            if (pilihanq2 == 'Y'){
-                userInfo.gCoin -= 625;
-                stat.magic += 20;
-                cout << "\n\tPembelian berhasil\n";
-                system("pause");
-
-                if (userInfo.gCoin < 0){
-                    cout << "\n\tPembelian dibatalkan karena terdeteksi saldo tidak cukup\n";
-                    userInfo.gCoin += 625;
-                    stat.magic -= 20;
-                    sleep(2);
-                }
-            }
-
-            else {
-                cout << "\n\tPembelian dibatalkan\n";
-                system("pause");
-            }
+            coreUpgradeStatus(625, 0, 20, 0, 0);
         }
 
         else if (pilihanq == 4){
-            system("cls");
-            cout << "\n\n\tHarganya 650 g. Yakin? [Y/N]\n\t";
-            cin >> pilihanq2;
-        
-            if (pilihanq2 == 'Y'){
-                userInfo.gCoin -= 625;
-                stat.power += 40;
-                cout << "\n\tPembelian berhasil\n";
-                system("pause");
-
-                if (userInfo.gCoin < 0){
-                    cout << "\n\tPembelian dibatalkan karena terdeteksi saldo tidak cukup\n";
-                    userInfo.gCoin += 625;
-                    stat.power -= 40;
-                    sleep(2);
-                }
-            }
-
-            else {
-                cout << "\n\tPembelian dibatalkan\n";
-                system("pause");
-            }
+            coreUpgradeStatus(625, 40, 0, 0, 0);
         }
 
         else if (pilihanq == 5){
-            system("cls");
-            cout << "\n\n\tHarganya 2000 g. Yakin? [Y/N]\n\t";
-            cin >> pilihanq2;
-        
-            if (pilihanq2 == 'Y'){
-                userInfo.gCoin -= 2000;
-                stat.defense += 50;
-                stat.life += 50;
-                stat.magic += 50;
-                stat.potion += 50;
-                stat.power += 50;
-                cout << "\n\tPembelian berhasil\n";
-                system("pause");
-
-                if (userInfo.gCoin < 0){
-                    cout << "\n\tPembelian dibatalkan karena terdeteksi saldo tidak cukup\n";
-                    userInfo.gCoin += 2000;
-                    stat.defense -= 50;
-                    stat.life -= 50;
-                    stat.magic -= 50;
-                    stat.potion -= 50;
-                    stat.power -= 50;
-                    sleep(2);
-                }
-            }
-
-            else {
-                cout << "\n\tPembelian dibatalkan\n";
-                system("pause");
-            }
+            coreUpgradeStatus(2000, 50, 50, 50, 50);
         }
 
         else if (pilihanq == 6){
@@ -229,10 +154,73 @@ void upgradeStatus(){
     }
 }
 
-void battle(){
-    int pilih;
+void coreBattleProcess(int pilih, int gCoin, int maxLife, int statPower, int statMagic, int statDefense, int statPotion){
     int damageHero, lastLife, lifeHero, lifeBoss, resultBool;
     string resultBattle;
+
+    system("cls");
+    cout << "\t\t\t\t\t\t\tINFORMASI BOSS" << endl << endl;
+    cout << "\tNama Boss\t: " << boss.name[pilih] << endl;
+    cout << "\tLife\t\t: " << boss.life[pilih] << endl;
+    cout << "\tDamage Boss\t: " << boss.power[pilih] << endl << endl << endl;
+    cout << "\t\t\t\t\t\tLOADING, HARAP TUNGGU" << endl;
+    sleep(10);
+    cout << "\t\t\t\t\t\tTekan apapun untuk melanjutkan" << endl;
+    system("pause");
+
+    system("cls");
+    damageHero = (stat.power + (2*stat.magic) + (3*stat.potion)); // total damage hero
+    lifeHero = (stat.life + (3*stat.defense) + ((3*stat.potion)*3)); // total life hero
+    lastLife = (lifeHero - boss.power[pilih]); // last life hero
+    lifeBoss = (boss.life[pilih] - damageHero); // last life boss
+
+    if (lifeBoss <= 0){
+        resultBool = 1;
+
+        userInfo.gCoin += gCoin;
+        MAX += maxLife;
+        stat.power += statPower;
+        stat.magic += statMagic;
+        stat.defense += statDefense;
+        stat.potion += statPotion;
+    }
+
+    else {
+        resultBool = 0;
+    }
+                
+    // to save history
+    history.battleId[indexa] = 1604064 + indexa;
+    history.enemyName[indexa] = boss.name[pilih];
+    history.hasil[indexa] = hasil(resultBool);
+
+    // to save history
+    history.totalLifeHero[indexa] = lifeHero;
+    history.totalDamageHero[indexa] = damageHero;
+    history.lastLifeHero[indexa] = lastLife;
+    history.totalLifeBoss[indexa] = boss.life[pilih];
+    history.totalDamageBoss[indexa] = boss.power[pilih];
+    history.lastLifeBoss[indexa] = lifeBoss;
+                
+    indexa++;
+
+    cout << "\n\n\n\n\n\t\t\t\t\tSEDANG BATTLE" << endl;
+    cout << "\t\t\t\t\tMEMBUTUHKAN WAKTU SEKITAR 15 DETIK" << endl;
+    sleep(15);
+    system("pause");
+                
+    system("cls");
+    resultBattle = hasil(resultBool);
+    cout << "\n\n\n\n\n\t\t\t\t\tKamu " << resultBattle << endl;
+    cout << "\t\t\t\tTekan tombol apapun untuk kembali ke Desa" << endl;
+    system("pause");
+
+    return;
+}
+
+void battle(){ // to battle
+    int pilih;
+    int gCoin, maxLife, statPower, statMagic, statDefense, statPotion;
 
     for (;;){
         system("cls");
@@ -245,121 +233,27 @@ void battle(){
         cin >> pilih;
 
         if (pilih == 1){
-                system("cls");
-                cout << "\t\t\t\t\t\t\tINFORMASI BOSS" << endl << endl;
-                cout << "\tNama Boss\t: " << boss.name[0] << endl;
-                cout << "\tLife\t\t: " << boss.life[0] << endl;
-                cout << "\tDamage Boss\t: " << boss.power[0] << endl << endl << endl;
-                cout << "\t\t\t\t\t\tLOADING, HARAP TUNGGU" << endl;
-                sleep(10);
-                cout << "\t\t\t\t\t\tTekan apapun untuk melanjutkan" << endl;
-                system("pause");
+            gCoin = 125;
+            maxLife = 128;
+            statPower = 22;
+            statMagic = 13;
+            statDefense = 14;
+            statPotion = 8;
+            coreBattleProcess(pilih-1, gCoin, maxLife, statPower, statMagic, statDefense, statPotion);
 
-                system("cls");
-                damageHero = (stat.power + (2*stat.magic) + (3*stat.potion));
-                lifeHero = (stat.life + (3*stat.defense) + ((3*stat.potion)*3));
-                lastLife = (lifeHero - boss.power[0]);
-                lifeBoss = (boss.life[0] - damageHero);
-
-                if (lifeBoss <= 0){
-                    resultBool = 1;
-                    userInfo.gCoin += 125;
-                    MAX += 128;
-                    stat.power += 22;
-                    stat.magic += 13;
-                    stat.defense += 14;
-                    stat.potion += 8;
-                }
-
-                else {
-                    resultBool = 0;
-                }
-
-                history.battleId[indexa] = 1604064 + indexa;
-                history.enemyName[indexa] = boss.name[0];
-                history.hasil[indexa] = hasil(resultBool);
-
-                detail.totalLifeHero[indexa] = lifeHero;
-                detail.totalDamageHero[indexa] = damageHero;
-                detail.lastLifeHero[indexa] = lastLife;
-                detail.totalLifeBoss[indexa] = boss.life[0];
-                detail.totalDamageBoss[indexa] = boss.power[0];
-                detail.lastLifeBoss[indexa] = lifeBoss;
-                
-                indexa++;
-
-                cout << "\n\n\n\n\n\t\t\t\t\tSEDANG BATTLE" << endl;
-                cout << "\t\t\t\t\tMEMBUTUHKAN WAKTU SEKITAR 15 DETIK" << endl;
-                sleep(15);
-                system("pause");
-                
-                system("cls");
-                resultBattle = hasil(resultBool);
-                cout << "\n\n\n\n\n\t\t\t\t\tKamu " << resultBattle << endl;
-                cout << "\t\t\t\tTekan tombol apapun untuk kembali ke Desa" << endl;
-                system("pause");
-
-                return;
+            return;
         }
-            
-
 
         else if (pilih == 2){
-                system("cls");
-                cout << "\t\t\t\t\t\t\tINFORMASI BOSS" << endl << endl;
-                cout << "\tNama Boss\t: " << boss.name[1] << endl;
-                cout << "\tLife\t\t: " << boss.life[1] << endl;
-                cout << "\tDamage Boss\t: " << boss.power[1] << endl << endl << endl;
-                cout << "\t\t\t\t\t\tLOADING, HARAP TUNGGU" << endl;
-                sleep(10);
-                cout << "\t\t\t\t\t\tTekan apapun untuk melanjutkan" << endl;
-                system("pause");
+            gCoin = 575;
+            maxLife = 410;
+            statPower = 50;
+            statMagic = 42;
+            statDefense = 30;
+            statPotion = 30;
+            coreBattleProcess(pilih-1, gCoin, maxLife, statPower, statMagic, statDefense, statPotion);
 
-                system("cls");
-                damageHero = (stat.power + (2*stat.magic) + (3*stat.potion));
-                lifeHero = (stat.life + (3*stat.defense) + ((3*stat.potion)*3));
-                lastLife = (lifeHero - boss.power[1]);
-                lifeBoss = (boss.life[1] - damageHero);
-
-                if (lifeBoss <= 0){
-                    resultBool = 1;
-                    userInfo.gCoin += 575;
-                    MAX += 410;
-                    stat.power += 50;
-                    stat.magic += 42;
-                    stat.defense += 30;
-                    stat.potion += 30;
-                }
-
-                else {
-                    resultBool = 0;
-                }
-
-                history.battleId[indexa] = 1604064 + indexa;
-                history.enemyName[indexa] = boss.name[1];
-                history.hasil[indexa] = hasil(resultBool);
-
-                detail.totalLifeHero[indexa] = lifeHero;
-                detail.totalDamageHero[indexa] = damageHero;
-                detail.lastLifeHero[indexa] = lastLife;
-                detail.totalLifeBoss[indexa] = boss.life[1];
-                detail.totalDamageBoss[indexa] = boss.power[1];
-                detail.lastLifeBoss[indexa] = lifeBoss;
-                
-                indexa++;
-
-                cout << "\n\n\n\n\n\t\t\t\t\tSEDANG BATTLE" << endl;
-                cout << "\t\t\t\t\tMEMBUTUHKAN WAKTU SEKITAR 15 DETIK" << endl;
-                sleep(15);
-                system("pause");
-                
-                system("cls");
-                resultBattle = hasil(resultBool);
-                cout << "\n\n\n\n\n\t\t\t\t\tKamu " << resultBattle << endl;
-                cout << "\t\t\t\tTekan tombol apapun untuk kembali ke Desa" << endl;
-                system("pause");
-
-                return;
+            return;
         }
 
         else if (pilih == 3){
@@ -394,7 +288,7 @@ void saveGame(){
             while(!history.hasil[i].empty()){
                 file << "\t\tRiwayat Battle\n\nBattle ID\t\t: " << history.battleId[i] << "\nNama boss\t\t: " << history.enemyName[i] << "\nHasil battle\t\t: " << history.hasil[i];
 
-                file << "\n\n\t\tHasil Detail Battle\n\nTotal life kamu\t\t: " << detail.totalLifeHero[i] << "\nTotal power kamu\t: " << detail.totalDamageHero[i] << "\nSisa life kamu\t\t: " << detail.lastLifeHero[i] << "\nTotal life boss\t\t: " << detail.totalLifeBoss[i] << "\nTotal power boss\t: " << detail.totalDamageBoss[i] << "\nSisa life boss\t\t: " << detail.lastLifeBoss[i];
+                file << "\n\n\t\tHasil Detail Battle\n\nTotal life kamu\t\t: " << history.totalLifeHero[i] << "\nTotal power kamu\t: " << history.totalDamageHero[i] << "\nSisa life kamu\t\t: " << history.lastLifeHero[i] << "\nTotal life boss\t\t: " << history.totalLifeBoss[i] << "\nTotal power boss\t: " << history.totalDamageBoss[i] << "\nSisa life boss\t\t: " << history.lastLifeBoss[i];
 
                 file << "\n\n================================================================\n\n";
 
