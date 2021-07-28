@@ -1,4 +1,5 @@
-/alpha.exe
-/beta.exe
-/gameHistory.log
-/uas.exe
+# VSCode things
+.vscode
+
+# All .exe
+*.exe
