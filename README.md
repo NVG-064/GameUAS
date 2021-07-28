@@ -1,3 +1,13 @@
+# Gambaran Umum
+
+![Welcome Screen](https://github.com/NVG-64/GameUAS/blob/master/preview/1.PNG?raw=true)
+![Select Weapon](https://github.com/NVG-64/GameUAS/blob/master/preview/4.PNG?raw=true)
+![Main Menu](https://github.com/NVG-64/GameUAS/blob/master/preview/5.PNG?raw=true)
+![Battle](https://github.com/NVG-64/GameUAS/blob/master/preview/7.PNG?raw=true)
+![On Battle](https://github.com/NVG-64/GameUAS/blob/master/preview/8.PNG?raw=true)
+![Upgrade Statistic](https://github.com/NVG-64/GameUAS/blob/master/preview/9.PNG?raw=true)
+![Log Game History](https://github.com/NVG-64/GameUAS/blob/master/preview/10.PNG?raw=true)
+
 # Pertama-tama
 
 - Untuk sementara, program ini dapat berjalan pada OS Windows. Untuk OS lainnya seperti GNU/Linux dan lainnya, belum tersedia.
