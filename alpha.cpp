@@ -1,7 +1,10 @@
 #include <iostream>
 #include <string>
-using namespace std;
 #define maxa 100
+using namespace std;
+
+
+
 string hasil();
 
 int result;
