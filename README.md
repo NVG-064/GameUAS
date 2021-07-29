@@ -18,6 +18,11 @@ Segala fitur akan dikembangkan sebisa mungkin. Jika ada waktu, akan dilakukan up
 - Tersedia dalam Bahasa Inggris (English Version).
 - Fix bug.
 - Optimisasi logic game.
+- [New thing] Account settings yang bisa mengatur ulang nama, karakter yang dipilih, serta weapon yang dipilih.
+- Real battle, waktu 15 detik tidak lagi gimmick alias penghias semata.
+- Optimisasi logic battle.
+- Optimisasi logic kode.
+- [Sedang dalam ide] Gacha.
 
 Akan ditambahkan seiring waktu.
 
