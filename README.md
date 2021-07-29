@@ -1,7 +1,7 @@
 # Pertama-tama
 
 - Untuk sementara, program ini dapat berjalan pada OS Windows. Untuk OS lainnya seperti GNU/Linux dan lainnya, belum tersedia.
-- Tampilan command line mungkin buruk, tergantung versi OS Windows yang digunakan. Disarankan menjalankan program ini pada OS Windows 10 karena commad line pada versi OS tersebut dapat di maximize.
+- Tampilan command line mungkin buruk, tergantung versi OS Windows yang digunakan. Disarankan menjalankan program ini pada OS Windows 10 karena commad line pada versi OS tersebut dapat di maximize. Jika Anda menjalankan program ini di Windows 7 atau pada command-line yang tidak bisa di maximize, klik kanan pada jendela cmd > Properties > Layout > atur Width menjadi 120 dan Height 30.
 - Program ini dalam bentuk CLI (Command-line Interface) atau tampilan command line.
 
 # Game Lilo dan Lily
