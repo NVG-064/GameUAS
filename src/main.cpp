@@ -324,26 +324,31 @@ void statusCheck(){
 }
 
 int weaponStats(){
-    int stats;
+    int statsPower, statsMagic;
     if (userInfo.weapon == "Sword"){
-        stats = 2;
-        return stats;
+        statsPower = 4;
+        return statsPower;
     }
+
     else if (userInfo.weapon == "Axe"){
-        stats = 2;
-        return stats;
+        statsPower = 3;
+        return statsPower;
     }
+
     else if (userInfo.weapon == "Arrow"){
-        stats = 2;
-        return stats;
+        statsPower = 5;
+        return statsPower;
     }
+
     else if (userInfo.weapon == "Magic Wand"){
-        stats = 2;
-        return stats;
+        statsMagic = 3;
+        return statsMagic;
     }
+
     else {
-        return stats = 0;
-    } 
+        statsPower = 0;
+        return statsPower;
+    }
 }
 
 void characterWeapon(){
