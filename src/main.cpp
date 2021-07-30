@@ -11,8 +11,9 @@ All attribute will be converted to power and life while battle to boss
 
 #include <iostream> // input ouput stream
 #include <fstream> // to output the file to battleHistory.log
-#include <string> // using for check string empty a.k.a variable_string_name.empty()
-#include <unistd.h> // using for sleep() command
+#include <string> // used for check string empty a.k.a variable_string_name.empty()
+#include <unistd.h> // used for sleep() command
+#include <stdlib.h> // used for exit() and EXIT_FAILURE also EXIT_SUCCESS
 #define maxa 100 // for all struct that saving information will be maximied 100 match
 using namespace std; // using standart namespace
 
@@ -21,19 +22,27 @@ int MAX = 100; // MAX life can be increased
 int indexa = 0; // increment for saving history game
 int i = 0; // increment for saving history game to file battleHistory.log
 
+void mainMenu(); // to declare Main Menu first without moving them
+
+
+struct systemWeapon{
+    string weaponName[4] = {"Sword", "Axe", "Arrow", "Magic Wand"};
+    int bonusAttribute[4] = {4, 3, 5, 3};
+}weapon;
+
 struct data{ // struct main information
     string nama;
     string karakter;
     string weapon;
-    int gCoin;
+    int gCoin = 1000;
 }userInfo;
 
 struct statistic{ // struct main statistic/attribute
-    int life;
-    int power;
-    int defense;
-    int magic;
-    int potion;
+    int life = 100;
+    int power = 10;
+    int magic = 7;
+    int defense = 5;
+    int potion = 25;
 }stat;
 
 struct historyBattle{ // struct history battle
@@ -266,49 +275,69 @@ void battle(){ // to battle
     }
 }
 
-void saveGame(){
+void saveHistory(){
     system("cls");
-    char pilih;
+    string pilih;
+
     cout << "\t\t\t\t\t\tKONFIRMASI" << endl << endl;
-    cout << "\n\tApa kamu ingin menyimpan riwayat game kamu? [Y/N]" << endl;
+    cout << "\n\tApa kamu ingin menyimpan riwayat game kamu? [Y]a/[T]idak" << endl;
     cout << "\t";
     cin >> pilih;
 
     ofstream file;
 
-    switch(pilih){
-        case 'Y':
-            file.open("gameHistory.log");
+    if ((pilih == "Ya") || (pilih == "Y")){
+        file.open("gameHistory.log");
 
-            file << "\t\tStatistik dasar\n\nNama\t\t\t: " << userInfo.nama << "\nKarakter\t\t: " << userInfo.karakter << "\nSenjata\t\t\t: " << userInfo.weapon << "\nKoin\t\t\t: " << userInfo.gCoin << " g";
-            file << "\n\n\t\tStatistik atribut\n\nLife\t\t\t: " << stat.life << "\nPower\t\t\t: " << stat.power << "\nMagic\t\t\t: " << stat.magic << "\nDefense\t\t\t: " << stat.defense << "\nPotion\t\t\t: " << stat.potion << "\n\n";
+        file << "\t\tStatistik dasar\n\nNama\t\t\t: " << userInfo.nama << "\nKarakter\t\t: " << userInfo.karakter << "\nSenjata\t\t\t: " << userInfo.weapon << "\nKoin\t\t\t: " << userInfo.gCoin << " g";
+        file << "\n\n\t\tStatistik atribut\n\nLife\t\t\t: " << stat.life << "\nPower\t\t\t: " << stat.power << "\nMagic\t\t\t: " << stat.magic << "\nDefense\t\t\t: " << stat.defense << "\nPotion\t\t\t: " << stat.potion << "\n\n";
+
+        file << "\n\n================================================================\n\n";
+
+        while(!history.hasil[i].empty()){
+            file << "\t\tRiwayat Battle\n\nBattle ID\t\t: " << history.battleId[i] << "\nNama boss\t\t: " << history.enemyName[i] << "\nHasil battle\t\t: " << history.hasil[i];
+
+            file << "\n\n\t\tHasil Detail Battle\n\nTotal life kamu\t\t: " << history.totalLifeHero[i] << "\nTotal power kamu\t: " << history.totalDamageHero[i] << "\nSisa life kamu\t\t: " << history.lastLifeHero[i] << "\nTotal life boss\t\t: " << history.totalLifeBoss[i] << "\nTotal power boss\t: " << history.totalDamageBoss[i] << "\nSisa life boss\t\t: " << history.lastLifeBoss[i];
 
             file << "\n\n================================================================\n\n";
 
-            while(!history.hasil[i].empty()){
-                file << "\t\tRiwayat Battle\n\nBattle ID\t\t: " << history.battleId[i] << "\nNama boss\t\t: " << history.enemyName[i] << "\nHasil battle\t\t: " << history.hasil[i];
+            i++;
+            cout << "\n\n";
+        }
 
-                file << "\n\n\t\tHasil Detail Battle\n\nTotal life kamu\t\t: " << history.totalLifeHero[i] << "\nTotal power kamu\t: " << history.totalDamageHero[i] << "\nSisa life kamu\t\t: " << history.lastLifeHero[i] << "\nTotal life boss\t\t: " << history.totalLifeBoss[i] << "\nTotal power boss\t: " << history.totalDamageBoss[i] << "\nSisa life boss\t\t: " << history.lastLifeBoss[i];
+        file.close();
 
-                file << "\n\n================================================================\n\n";
+        cout << "\n\tBerhasil disimpan" << endl;
+        system("pause");
+    } // end 2nd if
 
-                i++;
-                cout << "\n\n";
-            }
+    else if ((pilih == "T") || (pilih == "Tidak")){
+        cout << "\n\tRiwayat game tidak disimpan" << endl;
+    } // end 2nd else-if
 
-            file.close();
+    else return saveHistory(); // end 2nd else
 
-            cout << "\n\tBerhasil disimpan" << endl;
-            break;
-        
-        case 'N':
-            break;
-        
-        default:
-            return saveGame();
-    }
+    return;
+}
+
+void saveGame(){
+    system("cls");
+    string pilih;
+
+    cout << "\t\t\t\t\t\tKONFIRMASI" << endl << endl;
+    cout << "\n\tApa kamu yakin ingin keluar dari game? [Y]a/[T]idak" << endl;
+    cout << "\t";
+    cin >> pilih;
+
+    if (((pilih == "Ya") || (pilih == "Y"))) saveHistory(); // end 1st if
+    else if ((pilih == "T") || (pilih == "Tidak")) return mainMenu();   // end 1st else-if
+    else return saveGame(); // end 1st else
     
+
     cout << "\n\n\tTerima kasih sudah bermain Game Lilo dan Lily :)" << endl;
+    sleep(3);
+    
+    exit(EXIT_SUCCESS); // to exit program
 }
 
 void statusCheck(){
@@ -321,55 +350,87 @@ void statusCheck(){
     cout << "\tDefense\t: " << stat.defense << endl;
     cout << "\tPotion\t: " << stat.potion << endl << endl;
     system("pause");
+
+    return;
 }
 
-int weaponStats(){
-    int statsPower, statsMagic;
-    if (userInfo.weapon == "Sword"){
-        statsPower = 4;
-        return statsPower;
+void weaponStats(int flag){
+    
+    if (flag == 0){ // if flag is 1, it means we try to set a new attribute bonus
+        if (userInfo.weapon == weapon.weaponName[0]){
+            stat.power += weapon.bonusAttribute[0];
+            return;
+        }
+
+        else if (userInfo.weapon == weapon.weaponName[1]){
+            stat.power += weapon.bonusAttribute[1];
+            return;
+        }
+
+        else if (userInfo.weapon == weapon.weaponName[2]){
+            stat.power += weapon.bonusAttribute[2];
+            return;
+        }
+
+        else if (userInfo.weapon == weapon.weaponName[3]){
+            stat.magic += weapon.bonusAttribute[3];
+            return;
+        }
+
+        else {
+            stat.power += 0;
+            stat.magic += 0;
+            return;
+        }
     }
 
-    else if (userInfo.weapon == "Axe"){
-        statsPower = 3;
-        return statsPower;
-    }
-
-    else if (userInfo.weapon == "Arrow"){
-        statsPower = 5;
-        return statsPower;
-    }
-
-    else if (userInfo.weapon == "Magic Wand"){
-        statsMagic = 3;
-        return statsMagic;
-    }
 
     else {
-        statsPower = 0;
-        return statsPower;
+        if (userInfo.weapon == weapon.weaponName[0]){
+            stat.power -= weapon.bonusAttribute[0];
+            return;
+        }
+
+        else if (userInfo.weapon == weapon.weaponName[1]){
+            stat.power -= weapon.bonusAttribute[1];
+            return;
+        }
+
+        else if (userInfo.weapon == weapon.weaponName[2]){
+            stat.power -= weapon.bonusAttribute[2];
+            return;
+        }
+
+        else if (userInfo.weapon == weapon.weaponName[3]){
+            stat.magic -= weapon.bonusAttribute[3];
+            return;
+        }
+
+        else {
+            stat.power -= 0;
+            stat.magic -= 0;
+            return;
+        }
     }
 }
 
 void characterWeapon(){
-    string weapon[4] = {"Sword", "Axe", "Arrow", "Magic Wand"};
     int pilihanku;
 
     system("cls");
     cout << "\t\t\t\t\t\tALAT PERSENJATAAN" << endl << endl;
     cout << "\tHalo " << userInfo.nama << ".\n\tPilih alat persenjataan kamu: " << endl;
-    cout << "\t1. " << weapon[0] << endl;
-    cout << "\t2. " << weapon[1] << endl;
-    cout << "\t3. " << weapon[2] << endl;
-    cout << "\t4. " << weapon[3] << endl;
+    cout << "\t1. " << weapon.weaponName[0] << endl;
+    cout << "\t2. " << weapon.weaponName[1] << endl;
+    cout << "\t3. " << weapon.weaponName[2] << endl;
+    cout << "\t4. " << weapon.weaponName[3] << endl;
     cout << "\n\t";
     cin >> pilihanku;
 
-    if ((pilihanku > 0) && (pilihanku <= 4)) userInfo.weapon = weapon[pilihanku-1];
+    if ((pilihanku > 0) && (pilihanku <= 4)) userInfo.weapon = weapon.weaponName[pilihanku-1];
     else return characterWeapon();
 
-    cout << "\n\n\tWah, pilihan yang bagus! Tekan tombol apapun untuk melanjutkan" << endl << endl;
-    system("pause");
+    weaponStats(0);
 
     return;
 }
@@ -406,6 +467,33 @@ void characterSelect(){
     return;
 }
 
+void accountSettings(){
+    int pilihan;
+
+    for (;;){
+        system("cls");
+
+        cout << "\t\t\t\t\t\tPENGATURAN AKUN" << endl << endl;
+        cout << "\t1. Ganti karakter" << endl;
+        cout << "\t2. Ganti username" << endl;
+        cout << "\t3. Ganti alat persenjataan" << endl << endl;
+        cout << "\t4. Kembali ke Desa" << endl << endl;
+        cout << "\n\tPIlihan kamu: ";
+        cin >> pilihan;
+
+        if (pilihan == 1) characterSelect();
+        else if (pilihan == 2) nameInput();
+        else if (pilihan == 3){
+            weaponStats(1);
+            characterWeapon();
+        }
+        else if (pilihan == 4) return;
+        else /* You're stuck on loop */;
+    }
+
+    return;
+}
+
 void setWelcome(){
     system("cls");
     cout << "========================================================================================================================" << endl;
@@ -422,22 +510,24 @@ void setWelcome(){
     cout << "\t\t\t\t\tTekan tombol apapun untuk melanjutkan" << endl << endl;
 
     system("pause");
+
+    return;
 }
 
-int main(){
-    int pilihan;
+void startOnlyOnce(){
     setWelcome();
     characterSelect();
     nameInput();
     characterWeapon();
 
-    userInfo.gCoin = 1000;
+    cout << "\n\n\tWah, pilihan yang bagus! Tekan tombol apapun untuk melanjutkan" << endl << endl;
+    system("pause");
 
-    stat.life = 100;
-    stat.power = 10 + weaponStats();
-    stat.magic = 7 + weaponStats();
-    stat.defense = 5;
-    stat.potion = 25;
+    return;
+}
+
+void mainMenu(){
+    int pilihan;
 
     for (;;){
         system("cls");
@@ -447,7 +537,8 @@ int main(){
         cout << "\t2. Bertempur" << endl;
         cout << "\t3. Atur nyawa menjadi penuh" << endl;
         cout << "\t4. Tingkatkan status" << endl << endl;
-        cout << "\t5. Keluar dari game" << endl;
+        cout << "\t5. Pengaturan akun" << endl;
+        cout << "\t6. Keluar dari game" << endl;
         cout << "\n\n\tMasukkan pilihanmu: ";
         cin >> pilihan;
 
@@ -471,9 +562,21 @@ int main(){
                 break;
 
             case 5:
+                accountSettings();
+                break;
+
+            case 6:
                 saveGame();
-                return 0;
+                break;
         }
 
     }
+}
+
+int main(){
+    
+    startOnlyOnce();
+    mainMenu();
+    
+    return 0;
 }
