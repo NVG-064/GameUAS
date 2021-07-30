@@ -22,7 +22,9 @@ Segala fitur akan dikembangkan sebisa mungkin. Jika ada waktu, akan dilakukan up
 - Real battle, waktu 15 detik tidak lagi gimmick alias penghias semata.
 - Optimisasi logic battle.
 - Optimisasi logic kode.
-- [Sedang dalam ide] Gacha.
+- [Masih dalam bentuk ide] Gacha.
+- Sistem level.
+- Sistem inventori.
 
 Akan ditambahkan seiring waktu.
 
