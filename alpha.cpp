@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #define maxa 100
-#define klk 192
 using namespace std;
 
 string hasil();
